@@ -253,7 +253,7 @@ terraform test          # or: tofu test
 1. Before moving to the GCC option, confirm the ODC self-hosted requirements with OutSystems (EKS and version support, one stage across two clusters, database layout), and GCC egress and landing-zone constraints with GovTech.
 2. For the GCC option, expose HDB Backend's service actions as REST APIs and route HDB Portal's calls through the private API Gateway.
 3. Add unit tests with a BDD framework for core logic (sync, access control, search), and run them before each deployment to Test.
-4. Add caching to suitable actions, aggregates and Advanced SQL queries, refreshed after each daily sync.
+4. Add caching to suitable actions, aggregates and Advanced SQL queries.
 5. For the GCC option, build a CI/CD pipeline for the Terraform (plan on pull request, apply on approval) using GCC-approved tooling.
 6. Define performance targets and RTO/RPO, then load-test.
 7. Evaluate cross-region DR (pilot light) if the RTO requires it.

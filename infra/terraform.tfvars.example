@@ -1,0 +1,35 @@
+project     = "hdb-resale"
+environment = "prod"
+region      = "ap-southeast-1"
+azs         = ["ap-southeast-1a", "ap-southeast-1b"]
+
+# Tags your GCC landing zone requires (agency code, project code, cost centre...)
+extra_tags = {
+  # Agency = "XXX"
+}
+
+# Government network ranges allowed to the internal ALB
+officer_cidrs = [
+  # "10.0.0.0/8",
+]
+
+# ACM certificates (request/import them first)
+internet_certificate_arn = "arn:aws:acm:ap-southeast-1:111122223333:certificate/REPLACE-ME"
+intranet_certificate_arn = "arn:aws:acm:ap-southeast-1:111122223333:certificate/REPLACE-ME"
+intranet_api_hostname    = "api.intranet.example.gov.sg"
+
+# Domains the self-hosted ODC runtime must reach (get these from OutSystems)
+odc_platform_domains = [
+  # ".outsystems.com",
+]
+
+# Federated admin role(s), e.g. the TechPass-mapped role for your team
+eks_admin_role_arns = [
+  # "arn:aws:iam::111122223333:role/REPLACE-ME",
+]
+
+# Non-production cost savers (use in dev/qa tfvars):
+# db_multi_az            = false
+# db_deletion_protection = false
+# internet_nodes         = { min = 1, desired = 1, max = 3 }
+# intranet_nodes         = { min = 1, desired = 1, max = 3 }

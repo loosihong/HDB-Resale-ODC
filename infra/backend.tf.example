@@ -1,0 +1,11 @@
+# Copy to backend.tf and fill in. In GCC, use the state bucket your agency
+# account is allowed to use (or the one provided with the landing zone).
+terraform {
+  backend "s3" {
+    bucket       = "REPLACE-ME-tfstate"
+    key          = "hdb-resale-odc/prod/terraform.tfstate"
+    region       = "ap-southeast-1"
+    encrypt      = true
+    use_lockfile = true # S3 native state locking, no DynamoDB table needed
+  }
+}

@@ -243,6 +243,7 @@ terraform test          # or: tofu test
 - **HDB Portal calls HDB Backend through service actions.** This works on OutSystems cloud, but the GCC option's API Gateway needs a REST API. Service actions already use OutSystems' own REST-based protocol, so converting them to exposed REST APIs is straightforward.
 - **No application unit tests.** No automated tests with a BDD framework yet.
 - **No caching.** Read-heavy actions, aggregates and Advanced SQL queries aren't cached yet.
+- **Large batch job in a single run** A single failure in syncing one of the records will need to restart entire run.
 - **Kubernetes components aren't codified (GCC option).** The AWS Load Balancer Controller, autoscaler and ODC runtime are installed by hand.
 - **Terraform not tested against AWS (GCC option).** The Terraform has passed `validate` and a mocked plan, but hasn't been applied to a real account.
 - **ODC self-hosted setup is unconfirmed (GCC option).** EKS support, one stage across two clusters, the database layout, and GCC approval for the outbound connection all need confirming with OutSystems and GovTech.
@@ -250,10 +251,11 @@ terraform test          # or: tofu test
 - **No cross-region disaster recovery.**
 
 ### What I would do next
-1. Before moving to the GCC option, confirm the ODC self-hosted requirements with OutSystems (EKS and version support, one stage across two clusters, database layout), and GCC egress and landing-zone constraints with GovTech.
-2. For the GCC option, expose HDB Backend's service actions as REST APIs and route HDB Portal's calls through the private API Gateway.
-3. Add unit tests with a BDD framework for core logic (sync, access control, search), and run them before each deployment to Test.
-4. Add caching to suitable actions, aggregates and Advanced SQL queries.
-5. For the GCC option, build a CI/CD pipeline for the Terraform (plan on pull request, apply on approval) using GCC-approved tooling.
-6. Define performance targets and RTO/RPO, then load-test.
-7. Evaluate cross-region DR (pilot light) if the RTO requires it.
+1. Add caching to suitable actions, aggregates and Advanced SQL queries.
+2. Add unit tests with a BDD framework for core logic (sync, access control, search), and run them before each deployment to Test.
+3. Create a new backend application to handle multiple mini batch job runs. The application will store data needed for subsequent runs. Any failure will not cause run to restart.
+4. Define performance targets and RTO/RPO, then load-test.
+5. Before moving to the GCC option, confirm the ODC self-hosted requirements with OutSystems (EKS and version support, one stage across two clusters, database layout), and GCC egress and landing-zone constraints with GovTech.
+6. For the GCC option, expose HDB Backend's service actions as REST APIs and route HDB Portal's calls through the private API Gateway.
+8. For the GCC option, build a CI/CD pipeline for the Terraform (plan on pull request, apply on approval) using GCC-approved tooling.
+10. Evaluate cross-region DR (pilot light) if the RTO requires it.
